@@ -1,9 +1,12 @@
-const express = require('express'),
-  router = express.Router(),
-  productController = require('../controllers/products')
+const express = require("express");
+const router = express.Router();
+const productController = require("../controllers/products");
 
-// ROTAS DE USUÁRIOS (GERAL E POR ID)
-router.get('/:id', productController.show)
-router.get('/', productController.index)
+// ROTAS DE PRODUTOS
+router.get("/", productController.index);
+router.get("/:id", productController.show);
+router.post("/", productController.store);
+router.put("/:id", productController.update);
+router.delete("/:id", productController.delete);
 
-module.exports = router
+module.exports = router;

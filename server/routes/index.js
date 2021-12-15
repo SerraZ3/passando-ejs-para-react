@@ -1,8 +1,8 @@
-const express = require('express'),
-  router = express.Router(),
-  indexController = require('../controllers/index')
+const express = require("express");
+const router = express.Router();
+const produtosRouter = require("./products");
 
 // ROTA PREINCIPAL (Home)
-router.get('/', indexController.index)
+router.use("/produtos", produtosRouter);
 
-module.exports = router
+module.exports = router;

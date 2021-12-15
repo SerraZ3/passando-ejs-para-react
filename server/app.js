@@ -1,64 +1,43 @@
-const createError = require('http-errors'),
-  express = require('express'),
-  path = require('path'),
-  cookieParser = require('cookie-parser'),
-  logger = require('morgan'),
-  session = require('express-session')
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const logger = require("morgan");
 
 // ARQUIVOS DE ROTAS - IMPORTAÇÃO
-const indexRouter = require('./routes/index'),
-  usersRouter = require('./routes/users'),
-  productssRouter = require(`./routes/products`),
-  acessoRouter = require('./routes/acesso'),
-  adminRouter = require('./routes/admin')
-
-// ARQUIVO MIDDLEWARE - IMPORTAÇÃO
-const adminMiddleware = require('./middlewares/admin')
+const routes = require("./routes");
 
 // APP
-const app = express()
+const app = express();
 
 // VIEW ENGINE - A PASTA DAS VIEWS E A SINTAXE (EJS)
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'ejs')
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
 
-app.use(logger('dev'))
-app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
-
-// COOKIES E SESSION (PARSE E DEFINIÇÃO DA SESSION COM SEGREDO E TEMPO PARA EXPIRAÇÃO)
-app.use(cookieParser())
-app.use(session({ secret: 'QWhNdWxla2U=', cookie: { maxAge: 60000 } }))
+app.use(logger("dev"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // PASTA PÚBLICA PARA ARQUIVOS ESTÁTICOS (IMG, JS, CSS...)
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, "public")));
 
-// ARQUIVOS DE ROTAS SENDO CHAMADOS PARA CADA INÍCIO DE ROTA
-app.use('/acesso', acessoRouter) // Acessos como Login, Logout e Cadastro
-app.use('/usuarios', usersRouter)
-app.use('/produtos', productssRouter)
-app.use('/', indexRouter)
-
-// A PARTIR DAQUI SOMENTE USUÁRIOS ADMNISTRADORES PODEM ACESSAR
-app.use(adminMiddleware)
-
-// ROTAS ADMINISTRATIVAS
-app.use('/admin', adminRouter)
+app.use("/", routes);
 
 // CAPTURA DO 404 E SEQUÊNCIA AO TRATAMENTO DO ERRO
 app.use(function (req, res, next) {
-  next(createError(404))
-})
+  next(createError(404));
+});
 
 // MANIPULAÇÃO DE ERRO
 app.use(function (err, req, res, next) {
   // DEFINE LOCALS, EXIBINDO ERROS APENAS EM AMBIENTE DE DESENVOLVIMENTO
-  res.locals.message = err.message
-  res.locals.error = req.app.get('env') === 'development' ? err : {}
-
+  res.locals.message = err.message;
+  res.locals.error = req.app.get("env") === "development" ? err : {};
+  if (err.status === 404) {
+    return res.render("404");
+  }
   // RENDERIZANDO A VIEW DE ERROS
-  res.status(err.status || 500)
-  res.render('error')
-})
+  res.status(err.status || 500);
+  res.render("error");
+});
 
-module.exports = app
+module.exports = app;

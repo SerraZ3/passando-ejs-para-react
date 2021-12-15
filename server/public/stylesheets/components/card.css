@@ -2,7 +2,7 @@
 .card {
   background-color: var(--light);
   border-radius: var(--border-radius-quina-4);
-  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, .3));
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.3));
   display: flex;
   flex: 1 1 100%;
   flex-flow: column nowrap;
@@ -10,11 +10,11 @@
   margin: var(--spacing);
   padding: var(--spacing);
   position: relative;
-  transition: filter .3s ease-in-out;
+  transition: filter 0.3s ease-in-out;
 }
 
 .card:hover {
-  filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, .4));
+  filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, 0.4));
 }
 
 .card p,
@@ -48,9 +48,10 @@
 }
 
 .card__img-container img {
-  height: 100%;
-  transition: transform .6s ease-in-out;
-  width: 100%;
+  height: 200px;
+  transition: transform 0.6s ease-in-out;
+
+  width: 200px;
 }
 
 .card__img-container:hover img {
@@ -78,7 +79,7 @@
   color: var(--neutral-dark);
 }
 
-.card .card__price--old+.card__price {
+.card .card__price--old + .card__price {
   display: inline-block;
 }
 
@@ -100,10 +101,10 @@
 .card .card__content-container .bio::before {
   bottom: 0;
   content: open-quote;
-  filter: opacity(.1);
+  filter: opacity(0.1);
   font-family: fantasy;
   font-size: 10rem;
-  left: calc(var(--spacing-half)*-1);
+  left: calc(var(--spacing-half) * -1);
   position: absolute;
   right: 0;
   top: var(--spacing-double);
@@ -256,7 +257,6 @@
     max-height: calc(33vw - 56px);
   }
 
-
   .card.card--double {
     align-items: center;
     flex: 1 1 calc(50% - 48px);
@@ -322,8 +322,7 @@
 }
 
 @media only screen and (min-width: 1920px) {
-
-  body>main>section[id^="produtos"] {
+  body > main > section[id^="produtos"] {
     justify-content: center;
   }
 
